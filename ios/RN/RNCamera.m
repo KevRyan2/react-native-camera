@@ -1030,7 +1030,7 @@ BOOL _sessionInterrupted = NO;
     [self.session beginConfiguration];
 
 
-    if (_movieFileOutput == nil) {
+    if (_movieFileOutput == nil || _videoRecordedResolve != nil || _videoRecordedReject != nil) {
         // At the time of writing AVCaptureMovieFileOutput and AVCaptureVideoDataOutput (> GMVDataOutput)
         // cannot coexist on the same AVSession (see: https://stackoverflow.com/a/4986032/1123156).
         // We stop face detection here and restart it in when AVCaptureMovieFileOutput finishes recording.
@@ -1046,7 +1046,7 @@ BOOL _sessionInterrupted = NO;
         [self setupMovieFileCapture];
     }
 
-    if (self.movieFileOutput == nil || self.movieFileOutput.isRecording || _videoRecordedResolve != nil || _videoRecordedReject != nil) {
+    if (self.movieFileOutput == nil || self.movieFileOutput.isRecording) {
         [self.session commitConfiguration];
       return;
     }
