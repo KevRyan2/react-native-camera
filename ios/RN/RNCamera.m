@@ -1256,6 +1256,13 @@ BOOL _sessionInterrupted = NO;
         if ([self.movieFileOutput isRecording]) {
             [self.movieFileOutput stopRecording];
             [self onRecordingEnd:@{}];
+            // cleanup audio input if any, and release
+            // audio session so other apps can continue playback.
+            [self removeAudioCaptureSessionInput];
+
+            // clean these up as well since we've removed
+            // all inputs and outputs from session
+            self.audioCaptureDeviceInput = nil;
         } else {
             if(_recordRequested){
                 _recordRequested = NO;
